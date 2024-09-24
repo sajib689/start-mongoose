@@ -17,20 +17,20 @@ router.get('/todo/:id', async (req, res) => {
 
 // post todo
 
-router.post('/todo', async (req, res) => {
-    const newTodo = await new Todo(req.body)
-    await newTodo.save((error) => {
-        if (error) {
-            res.status(500).json({
-                error: 'There was an error saving'
-            })
-        } else {
-            res.status(200).json({
-                message: 'Success saving'
-            })
-        }
-    })
-})
+router.post('/', async (req, res) => {
+    const newTodo = new Todo(req.body);
+    try {
+        const savedTodo = await newTodo.save();
+        res.status(200).json({
+            message: 'Todo saved successfully',
+            todo: savedTodo
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: 'There was an error saving the todo'
+        });
+    }
+});
 
 // post todo
 
