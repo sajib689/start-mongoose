@@ -12,8 +12,8 @@ const todoSchema = mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now()
+        default: Date.now 
     }
 })
 
-module.exports = todoSchema
+module.exports = todoSchema;
