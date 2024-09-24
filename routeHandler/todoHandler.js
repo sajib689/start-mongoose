@@ -5,8 +5,14 @@ const todoSchema = require('../schema/todoSchema')
 const Todo = new mongoose.model('Todo',todoSchema)
 // get the all router todo
 
-router.get('/todo', async (req, res) => {
-    
+router.get('/', async (req, res) => {
+    try {
+        const todos = await Todo.find()
+        res.status(200).json(todos)
+    } catch (error) {
+        res.status(500).json({ error: 'There was an error retrieving todos' });
+
+    }
 })
 
 
