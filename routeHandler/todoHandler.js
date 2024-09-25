@@ -17,8 +17,18 @@ router.get('/', async (req, res) => {
 
 
 // get the by id
-router.get('/todo/:id', async (req, res) => {
-
+router.get('/:id', async (req, res) => {
+    try {
+         const todo =  await Todo.findById(req.params.id)
+         if(todo) {
+            res.status(200).json(todo);
+         } else {
+            res.status(404).json({message: 'can not get by id'})
+         }
+       
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
 })
 
 // post todo
@@ -60,13 +70,29 @@ router.post('/all', async (req, res) => {
 // put todo
 
 router.put('/:id', async (req, res) => {
-
+    try {
+        await Todo.updateOne({_id: req.params.id}, {
+            $set: {
+                status: 'active',
+            }
+        })
+        res.status(200).json({message: 'updated successfully'})
+    } catch (err) {
+        res.status(500).json({message: err.message})
+        console.log(err)
+    }
 })
 
 // delete todo
 
 router.delete('/:id', async (req, res) => {
-
+    try {
+        await Todo.deleteOne({_id: req.params.id})
+        res.status(200).json({message: 'Delete successfully'})
+    } catch (err) {
+        res.status(500).json({message: err.message})
+        console.log(err)
+    }
 })
 
 module.exports = router
